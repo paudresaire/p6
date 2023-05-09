@@ -5,7 +5,7 @@ File myFile;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.print("Iniciando SD ...");
   if (!SD.begin(4)) {
     Serial.println("No se pudo inicializar");
