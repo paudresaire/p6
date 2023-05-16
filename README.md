@@ -1,10 +1,9 @@
-# Práctica 6 - Buses de comunicación II (SPI)
+# Pràctica 6 part 1
 
-# Ejercicio Práctico 1
+### Codi
 
-Programar el siguiente código:
+```c
 
-```
 #include <SPI.h>
 #include <SD.h>
 
@@ -12,17 +11,17 @@ File myFile;
 
 void setup()
 {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.print("Iniciando SD ...");
-  if (!SD.begin(4)) {
+  if (!SD.begin(5)) {
     Serial.println("No se pudo inicializar");
     return;
   }
   Serial.println("inicializacion exitosa");
  
-  myFile = SD.open("archivo.txt");//abrimos  el archivo 
+  myFile = SD.open("/archivo.txt");//abrimos  el archivo 
   if (myFile) {
-    Serial.println("archivo.txt:");
+    Serial.println("/archivo.txt:");
     while (myFile.available()) {
     	Serial.write(myFile.read());
     }
@@ -36,71 +35,16 @@ void loop()
 {
   
 }
+
 ```
 
+### Describir la salida por el puerto série (Foto)
+![Captura_p6_part1_lecturatargeta](https://github.com/paudresaire/p6/assets/125595278/47605365-4e90-4765-a82c-1489b9370cfd)
 
-### Describir la salida por el puerto série
-
-dasodfjsojf
+**Dentro del fichero:**
+![foto_sortida_p6_1](https://github.com/paudresaire/p6/assets/125595278/cebf6a50-02f2-451d-beb3-21b3ccc9810c)
 
 
 ### Explciar el funcionamiento
-
-afmsdoifdsk
-
-
-
-
-
-# Ejercicio Práctico 2
-
-Programar el siguiente código:
-```
-#include <SPI.h>
-#include <MFRC522.h>
-
-#define RST_PIN	9    //Pin 9 para el reset del RC522
-#define SS_PIN	10   //Pin 10 para el SS (SDA) del RC522
-MFRC522 mfrc522(SS_PIN, RST_PIN); //Creamos el objeto para el RC522
-
-void setup() {
-	Serial.begin(9600); //Iniciamos la comunicación  serial
-	SPI.begin();        //Iniciamos el Bus SPI
-	mfrc522.PCD_Init(); // Iniciamos  el MFRC522
-	Serial.println("Lectura del UID");
-}
-
-void loop() {
-	// Revisamos si hay nuevas tarjetas  presentes
-	if ( mfrc522.PICC_IsNewCardPresent()) 
-        {  
-  		//Seleccionamos una tarjeta
-            if ( mfrc522.PICC_ReadCardSerial()) 
-            {
-                  // Enviamos serialemente su UID
-                  Serial.print("Card UID:");
-                  for (byte i = 0; i < mfrc522.uid.size; i++) {
-                          Serial.print(mfrc522.uid.uidByte[i] < 0x10 ? " 0" : " ");
-                          Serial.print(mfrc522.uid.uidByte[i], HEX);   
-                  } 
-                  Serial.println();
-                  // Terminamos la lectura de la tarjeta  actual
-                  mfrc522.PICC_HaltA();         
-            }      
-	}	
-}
-```
-
-
-### Describir la salida por el puerto série
-
-dasodfjsojf
-
-
-### Explciar el funcionamiento
-
-afmsdoifdsk
-
-
-# Ejercicio Práctico 3
-
+A partir del siguiente código accedemos a la microSD y podemos leer un fichero de un nombre determinado. Al declarar la ruta y el nombre del archivo, el programa
+muestra por el puerto série el contenido de este, ya que se trata de un fichero de texto simple.
